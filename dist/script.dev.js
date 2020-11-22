@@ -1,5 +1,13 @@
 "use strict";
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 //make the drop
 var BTN = document.querySelector("button");
 var CALCPANEL = document.querySelector(".calc-panel__battons");
@@ -10,38 +18,70 @@ BTN.addEventListener("mousedown", function () {
   startGame(); //   console.log("херь");
   //   console.log(currentDrops);
 });
-var FAIL = new Audio("./assets/sounds/fail.mp3");
-var VICTORY = new Audio("./assets/sounds/pobeda.mp3");
-var SEA = new Audio("./assets/sounds/sea.mp3");
+var FAILsound = new Audio("./assets/sounds/fail.mp3");
+var SMALLfailsound = new Audio("./assets/sounds/smallfail.mp3");
+var VICTORYsound = new Audio("./assets/sounds/pobeda.mp3");
+var DROPsound = new Audio("./assets/sounds/kap.mp3");
+var SEAsound = new Audio("./assets/sounds/sea.mp3");
 
-SEA.onended = function () {
-  return SEA.play();
+SEAsound.onended = function () {
+  return SEAsound.play();
 };
 
 var STARTNUMBER = 1;
-var ENDTNUMBER = 2;
-var TIME = 5;
-var TIMEInterval = 1;
+var ENDNUMBER = 20;
+var TIMEForOneDrop = 10; // in sec
+
+var DROPFollenInterval = 5; // in sec
+
+var IntervalOfDropOpacity = 1; // in sec
+
+var IsGamePlayed = false;
 var lastLean = 0;
 var currentDrops = [];
 var inxDrop = 0;
+var countWinDrop = 0;
+var operators = ["+", "-", "/", "x"];
 var myevent = new Event("click", {
   bubbles: true
 });
 var game = 0;
-var numberOfFeils = 0; // clearInterval(autoClick);
-// let second = randomAll(STARTNUMBER, ENDTNUMBER);
+var numberOfFeils = 0;
+var coint = 10;
+var startTime;
+var endTime;
+var operator;
+var first;
+var second;
+var result;
 
 function startGame() {
+  IsGamePlayed = true;
+  lastLean = 0;
+  coint = 10;
+  countWinDrop = 0;
+  startTime = new Date();
   createDrop();
-  game = setInterval(createDrop, TIMEInterval * 1000);
+  game = setInterval(createDrop, DROPFollenInterval * 1000);
+  SEAsound.play();
 }
 
-function feiled() {
-  FAIL.currentTime = 0;
-  FAIL.play();
-  SCORE.textContent = +SCORE.textContent - 17;
-  if (++numberOfFeils >= 3) setTimeout(endGame, 800);
+function feiled(e) {
+  if (!IsGamePlayed) return;
+  e.target.dataset.goal = "dfvvedfv";
+  e.target.style.transition = "".concat(IntervalOfDropOpacity, "s all");
+  e.target.style.opacity = 0;
+  console.log(e.target.dataset.goal);
+  setTimeout(e.target.remove.bind(e.target), IntervalOfDropOpacity * 1000);
+  SMALLfailsound.currentTime = 0;
+  SMALLfailsound.play();
+  SCORE.textContent = +SCORE.textContent - coint;
+
+  if (++numberOfFeils >= 3) {
+    IsGamePlayed = false;
+    setTimeout(endGame, IntervalOfDropOpacity * 1000);
+  }
+
   console.log(numberOfFeils);
 }
 
@@ -52,9 +92,13 @@ function endGame() {
     return drop.remove();
   });
   numberOfFeils = 0;
+  SEAsound.pause();
+  FAILsound.play();
+  endTime = new Date();
 }
 
 function createDrop() {
+  if (!IsGamePlayed) return;
   var DROP = document.createElement("div");
   var DROPcontainer = document.createElement("div");
   var SPAN1 = document.createElement("span");
@@ -63,31 +107,29 @@ function createDrop() {
   var FILD = document.querySelector(".game__fild");
   var BOTTOM = FILD.offsetHeight;
   var leans = Math.floor((FILD.offsetWidth - 60) / 80);
-  var LEFT = randomLean(leans) * 80 - 60;
+  var LEFTPostion = randomLean(leans) * 80 - 60;
   DROP.classList.add("drop");
   DROPcontainer.classList.add("drop__container");
-  DROP.style.left = "".concat(LEFT, "px");
+  DROP.style.left = "".concat(LEFTPostion, "px");
   DROP.addEventListener("transitionend", dropTransitionEnd);
 
   function dropTransitionEnd(e) {
     e.target.removeEventListener("transitionend", dropTransitionEnd);
-    e.target.dataset.goal = "dfvvedfv";
-    e.target.style.transition = "1s all";
-    e.target.style.opacity = 0;
-    console.log(e.target.dataset.goal);
-    feiled();
-    setTimeout(e.target.remove, 1000);
+    feiled(e);
   }
 
   SPAN1.classList.add("drop__span");
   SPAN2.classList.add("drop__span", "drop__span_big");
-  SPAN2.textContent = "+";
   SPAN3.classList.add("drop__span");
-  var first = randomAll(STARTNUMBER, ENDTNUMBER);
-  var second = randomAll(STARTNUMBER, ENDTNUMBER);
-  SPAN1.textContent = Math.max(first, second);
-  SPAN3.textContent = Math.min(first, second);
-  DROP.dataset.goal = first + second;
+
+  var _setNumbers = setNumbers();
+
+  var _setNumbers2 = _slicedToArray(_setNumbers, 4);
+
+  SPAN1.textContent = _setNumbers2[0];
+  SPAN3.textContent = _setNumbers2[1];
+  DROP.dataset.goal = _setNumbers2[2];
+  SPAN2.textContent = _setNumbers2[3];
   document.body.prepend(DROP);
   DROP.appendChild(DROPcontainer);
   DROPcontainer.appendChild(SPAN1);
@@ -95,10 +137,44 @@ function createDrop() {
   DROPcontainer.appendChild(SPAN3);
   setTimeout(function () {
     DROP.style.transform = "translateY(".concat(BOTTOM, "px)");
-    DROP.style.transition = "".concat(TIME, "s transform ease-in");
+    DROP.style.transition = "".concat(TIMEForOneDrop, "s transform ease-in");
   }, 100);
   currentDrops[inxDrop] = DROP;
   inxDrop++;
+}
+
+function setNumbers() {
+  operator = operators[randomAll(0, operators.length - 1)];
+
+  if (operator == "+") {
+    first = randomAll(STARTNUMBER, ENDNUMBER);
+    second = randomAll(STARTNUMBER, ENDNUMBER);
+    result = first + second;
+  }
+
+  if (operator == "-") {
+    first = randomAll(STARTNUMBER, ENDNUMBER);
+    second = randomAll(STARTNUMBER, ENDNUMBER);
+    var max = Math.max(first, second);
+    var min = Math.min(first, second);
+    first = max;
+    second = min;
+    result = first - second;
+  }
+
+  if (operator == "x") {
+    first = randomAll(STARTNUMBER, ENDNUMBER > 10 ? 10 : ENDNUMBER);
+    second = randomAll(STARTNUMBER, ENDNUMBER > 10 ? 10 : ENDNUMBER);
+    result = first * second;
+  }
+
+  if (operator == "/") {
+    result = randomAll(STARTNUMBER, ENDNUMBER > 10 ? 10 : ENDNUMBER);
+    second = randomAll(STARTNUMBER, ENDNUMBER > 10 ? 10 : ENDNUMBER);
+    first = result * second;
+  }
+
+  return [first, second, result, operator];
 }
 
 function randomAll(min, max) {
@@ -117,17 +193,24 @@ function randomLean(leans) {
 }
 
 function enterGoal() {
+  if (!IsGamePlayed) return;
   var GOAL = document.querySelectorAll(".drop");
 
   for (var i = GOAL.length - 1; i >= 0; --i) {
     if (GOAL[i].dataset.goal == CALCSCREEN.textContent) {
-      SCORE.textContent = +SCORE.textContent + 10;
+      SCORE.textContent = +SCORE.textContent + coint++;
       GOAL[i].remove();
-      VICTORY.currentTime = 0;
-      VICTORY.play();
+      VICTORYsound.currentTime = 0;
+      VICTORYsound.play();
       CALCSCREEN.textContent = "";
+      ++countWinDrop;
+      return;
     }
   }
+
+  CALCSCREEN.textContent = "";
+  DROPsound.currentTime = 0;
+  DROPsound.play();
 }
 
 function keydown(e) {

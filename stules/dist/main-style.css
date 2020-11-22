@@ -154,6 +154,7 @@ body {
   width: 100%;
   height: 100%;
   background-color: bisque;
+  background-image: url("../../assets/img/blue-wave.png");
 }
 @media screen and (max-width: 460px) {
   .game__fild {
