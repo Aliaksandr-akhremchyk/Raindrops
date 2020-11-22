@@ -1,0 +1,39 @@
+.drop {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100px;
+  height: 100px;
+  top: -130px;
+  background-color: aqua;
+  border-radius: 50%;
+  transition-timing-function: ease-in;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+.drop__container {
+  position: absolute;
+  top: -20px;
+  text-align: center;
+}
+.drop__span {
+  display: block;
+  font-size: 4rem;
+  font-weight: bold;
+  line-height: 3.5rem;
+}
+.drop__span_big {
+  font-size: 6rem;
+  text-shadow: 2px 2px 0px white, -2px -2px 0px white, -2px 2px 0px white, 2px -2px 0px white;
+}
+.drop::before {
+  content: "";
+  position: absolute;
+  top: -80px;
+  right: 5px;
+  width: 0;
+  height: 0;
+  border-left: 45px solid transparent;
+  border-right: 45px solid transparent;
+  border-bottom: 110px solid aqua;
+}
