@@ -14,28 +14,37 @@
   border-radius: 3px;
   @media screen and (max-width: $mobile-width) {
     margin: 15px auto 0 auto;
-    height: 60px;
+    height: 45px;
+    font-size: 4rem;
+    max-width: 300px;
   }
 }
 
 .calc-panel {
   width: 90%;
   margin: 60px auto;
-  background-color: blueviolet;
+  background-color: rgb(110, 116, 202);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.22);
 
   @media screen and (max-width: $mobile-width) {
-    margin: 15px auto;
+    margin: 10px auto;
+    max-width: 300px;
   }
   &__screen {
     box-sizing: border-box;
+
     width: 100%;
     height: 80px;
-    padding: 0 10px;
+    padding: 5px 10px;
     font-size: 6rem;
-    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.2);
     @media screen and (max-width: $mobile-width) {
-      height: 60px;
+      height: 45px;
+      font-size: 4rem;
     }
   }
   &__battons {
@@ -43,17 +52,20 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;
-
     &_batton {
       display: flex;
       font-size: 4rem;
       align-items: center;
       justify-content: center;
-      border: 1px solid black;
+      // border: 1px solid black;
+      border-radius: 50px;
       user-select: none;
       transition: 0.3s all;
+      &:hover {
+        background-color: rgb(74, 82, 197);
+      }
       @media screen and (max-width: $mobile-width) {
-        font-size: 3.5rem;
+        font-size: 3rem;
       }
     }
   }
@@ -83,4 +95,9 @@
 }
 .del {
   font-size: 1.5rem;
+}
+
+button {
+  display: inline-block;
+  margin-bottom: 10px;
 }

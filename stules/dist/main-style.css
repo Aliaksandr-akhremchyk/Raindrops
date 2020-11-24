@@ -38,6 +38,13 @@
   border-bottom: 110px solid aqua;
 }
 
+.bonus {
+  background-color: orange;
+}
+.bonus::before {
+  border-bottom: 110px solid orange;
+}
+
 .score {
   box-sizing: border-box;
   display: flex;
@@ -51,35 +58,43 @@
   border: 1px solid black;
   border-radius: 3px;
 }
-@media screen and (max-width: 460px) {
+@media screen and (max-width: 520px) {
   .score {
     margin: 15px auto 0 auto;
-    height: 60px;
+    height: 45px;
+    font-size: 4rem;
+    max-width: 300px;
   }
 }
 
 .calc-panel {
   width: 90%;
   margin: 60px auto;
-  background-color: blueviolet;
+  background-color: #6e74ca;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.22);
 }
-@media screen and (max-width: 460px) {
+@media screen and (max-width: 520px) {
   .calc-panel {
-    margin: 15px auto;
+    margin: 10px auto;
+    max-width: 300px;
   }
 }
 .calc-panel__screen {
   box-sizing: border-box;
   width: 100%;
   height: 80px;
-  padding: 0 10px;
+  padding: 5px 10px;
   font-size: 6rem;
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.2);
 }
-@media screen and (max-width: 460px) {
+@media screen and (max-width: 520px) {
   .calc-panel__screen {
-    height: 60px;
+    height: 45px;
+    font-size: 4rem;
   }
 }
 .calc-panel__battons {
@@ -93,13 +108,16 @@
   font-size: 4rem;
   align-items: center;
   justify-content: center;
-  border: 1px solid black;
+  border-radius: 50px;
   user-select: none;
   transition: 0.3s all;
 }
-@media screen and (max-width: 460px) {
+.calc-panel__battons_batton:hover {
+  background-color: #4a52c5;
+}
+@media screen and (max-width: 520px) {
   .calc-panel__battons_batton {
-    font-size: 3.5rem;
+    font-size: 3rem;
   }
 }
 
@@ -130,6 +148,47 @@
   font-size: 1.5rem;
 }
 
+button {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.overlay {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  top: 0px;
+  width: 100%;
+  height: 100vh;
+  z-index: 2;
+  opacity: 1;
+  transition: all 0.6s;
+}
+
+.message {
+  max-width: 420px;
+  background: #ffc600;
+  border: 3px solid yellow;
+  padding: 10px;
+}
+
+.confirm {
+  width: 50%;
+  margin: auto;
+  border: 3px solid yellow;
+  cursor: pointer;
+}
+
+.opacity-null {
+  opacity: 0;
+}
+
+.display-none {
+  display: none;
+}
+
 html {
   font-size: 10px;
 }
@@ -138,6 +197,7 @@ html,
 body {
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 .game {
@@ -145,37 +205,49 @@ body {
   width: 100vw;
   height: 100vh;
 }
-@media screen and (max-width: 460px) {
+@media screen and (max-width: 520px) {
   .game {
     flex-direction: column;
   }
 }
-.game__fild {
+.game__container {
   width: 100%;
   height: 100%;
-  background-color: bisque;
-  background-image: url("../../assets/img/blue-wave.png");
+  display: flex;
+  flex-direction: column;
 }
-@media screen and (max-width: 460px) {
-  .game__fild {
+.game__container_fild {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, powderblue, #f1faff);
+}
+@media screen and (max-width: 520px) {
+  .game__container_fild {
     width: 100%;
   }
 }
 .game__calc {
+  display: flex;
   right: 0;
+  flex-direction: column;
   top: 0;
-  width: 30%;
-  min-width: 300px;
+  width: 22%;
+  min-width: 260px;
+  background: linear-gradient(to top, #e6d3b0, #f8f6e0);
+  justify-content: start;
+  align-items: center;
 }
-@media screen and (max-width: 460px) {
+@media screen and (max-width: 520px) {
   .game__calc {
     position: relative;
     bottom: 0px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    flex-direction: column;
     min-width: initial;
     width: 100vw;
   }
+}
+
+.wave {
+  height: 20%;
+  background-color: blue;
+  transition: 1s;
 }

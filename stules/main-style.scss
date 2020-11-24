@@ -2,6 +2,7 @@
 @import "_vriables.scss";
 @import "_fild.scss";
 @import "_calc.scss";
+@import "_end-message.scss";
 
 html {
   font-size: 10px;
@@ -11,6 +12,7 @@ html,
 body {
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 .game {
@@ -20,31 +22,45 @@ body {
   @media screen and (max-width: $mobile-width) {
     flex-direction: column;
   }
-  // background-color: bisque;
-  &__fild {
+  &__container {
     width: 100%;
     height: 100%;
-    background-color: bisque;
-    background-image: url("../../assets/img/blue-wave.png");
+    display: flex;
+    flex-direction: column;
+  }
+  // background-color: bisque;
+  &__container_fild {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, powderblue, rgb(241, 250, 255));
+    // background-image: url("../../assets/img/blue-wave.png");
+    // background-repeat: no-repeat;
+    // background-size: 100% 30%;
+    // background-position: center bottom;
     @media screen and (max-width: $mobile-width) {
       width: 100%;
     }
   }
   &__calc {
-    // position: absolute;
+    display: flex; // position: absolute;
     right: 0;
+    flex-direction: column;
     top: 0;
-    width: 30%;
-    min-width: 300px;
+    width: 22%;
+    min-width: 260px;
+    background: linear-gradient(to top, rgb(230, 211, 176), rgb(248, 246, 224));
+    justify-content: start;
+    align-items: center;
     @media screen and (max-width: $mobile-width) {
       position: relative;
       bottom: 0px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-      flex-direction: column;
       min-width: initial;
       width: 100vw;
     }
   }
+}
+.wave {
+  height: 20%;
+  background-color: blue;
+  transition: 1s;
 }

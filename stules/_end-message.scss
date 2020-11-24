@@ -1,0 +1,32 @@
+.overlay {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  top: 0px;
+  width: 100%;
+  height: 100vh;
+  z-index: 2;
+  opacity: 1;
+  transition: all 0.6s;
+}
+.message {
+  max-width: 420px;
+  background: #ffc600;
+  border: 3px solid yellow;
+  padding: 10px;
+}
+.confirm {
+  width: 50%;
+  margin: auto;
+  border: 3px solid yellow;
+  cursor: pointer;
+}
+
+.opacity-null {
+  opacity: 0;
+}
+.display-none {
+  display: none;
+}
