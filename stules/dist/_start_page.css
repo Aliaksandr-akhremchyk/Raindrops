@@ -1,0 +1,98 @@
+.message-start {
+  max-width: 900px;
+  max-height: 90vh;
+}
+
+.operator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 7px;
+}
+
+.operator_vedeo {
+  justify-content: center;
+}
+
+.operator_check {
+  box-sizing: border-box;
+  position: relative;
+  height: 40px;
+  width: 40px;
+  border: 3px solid black;
+  cursor: pointer;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.22);
+  transition: 0.3s all;
+}
+.operator_check_active {
+  border: 6px solid blue;
+  border-radius: 50%;
+  background-image: url("../../assets/img/kalr.png");
+  background-size: cover;
+}
+
+.configuration {
+  transition: 0.3s all;
+}
+.configuration h5 {
+  display: block;
+  max-width: 250px;
+  font-weight: normal;
+  line-height: normal;
+}
+
+.arrows {
+  height: 40px;
+  width: 40px;
+  background-size: cover;
+  background-size: 70% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.arrows_set-number {
+  display: flex;
+  font-size: 4rem;
+  align-items: center;
+  justify-content: center;
+}
+.arrows_down {
+  background-image: url("../../assets/img/arrow-d.png");
+  cursor: pointer;
+}
+.arrows_up {
+  background-image: url("../../assets/img/arrow-up.png");
+  cursor: pointer;
+}
+.arrows_left {
+  background-image: url("../../assets/img/arrow-left.png");
+  cursor: pointer;
+  background-size: 100% 70%;
+}
+.arrows_left_passive {
+  background-image: url("../../assets/img/arrow-left-p.png");
+}
+.arrows_right {
+  background-image: url("../../assets/img/arrow-right.png");
+  cursor: pointer;
+  background-size: 100% 70%;
+}
+.arrows_right_passive {
+  background-image: url("../../assets/img/arrow-right-p.png");
+}
+
+video {
+  width: 90%;
+}
+
+.description {
+  width: 70%;
+  overflow: hidden;
+  line-height: 2.3rem;
+  max-width: 400px;
+  font-size: 2rem;
+}
+
+.video3 {
+  background-image: url("../../assets/img/NumLock.jpg");
+  background-size: cover;
+}

@@ -1,0 +1,56 @@
+@import "_vriables.scss";
+
+.drop {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100px;
+  height: 100px;
+  top: -110px; //
+  background-color: $drop-color;
+  border-radius: 50%;
+  transition-timing-function: ease-in;
+
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.22);
+  &__container {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 7px;
+    top: 10px;
+    text-align: center;
+  }
+  &__span {
+    display: block;
+    margin-left: 3px;
+    font-size: 3.5rem;
+    font-weight: bold;
+    line-height: 3.5rem;
+    &_big {
+      height: 100%;
+      float: left;
+      font-size: 6rem;
+      text-shadow: 2px 2px 3px white, -2px -2px 3px white, -2px 2px 3px white,
+        2px -2px 3px white;
+    }
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    top: -80px;
+    right: 5px;
+    width: 0;
+    height: 0;
+    border-left: 45px solid transparent;
+    border-right: 45px solid transparent;
+    border-bottom: 110px solid $drop-color;
+  }
+}
+
+.bonus {
+  background-color: $drop-bonus-color;
+  &::before {
+    border-bottom: 110px solid $drop-bonus-color;
+  }
+}
