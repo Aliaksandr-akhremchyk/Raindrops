@@ -7,28 +7,32 @@
   flex-direction: column;
   width: 100px;
   height: 100px;
-  top: -130px;
+  top: -110px; //
   background-color: $drop-color;
   border-radius: 50%;
-  // transform: translateY(600px);
-  // transition: 7s transform;
   transition-timing-function: ease-in;
 
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.22);
   &__container {
     position: absolute;
-    top: -20px;
+    display: flex;
+    align-items: center;
+    left: 7px;
+    top: 10px;
     text-align: center;
   }
   &__span {
     display: block;
-    font-size: 4rem;
+    margin-left: 3px;
+    font-size: 3.5rem;
     font-weight: bold;
     line-height: 3.5rem;
     &_big {
+      height: 100%;
+      float: left;
       font-size: 6rem;
-      text-shadow: 2px 2px 0px white, -2px -2px 0px white, -2px 2px 0px white,
-        2px -2px 0px white;
+      text-shadow: 2px 2px 3px white, -2px -2px 3px white, -2px 2px 3px white,
+        2px -2px 3px white;
     }
   }
   &::before {
@@ -41,7 +45,6 @@
     border-left: 45px solid transparent;
     border-right: 45px solid transparent;
     border-bottom: 110px solid $drop-color;
-    // z-index: -1;
   }
 }
 

@@ -9,17 +9,72 @@
 </head>
 
 <body>
-  <div class="overlay opacity-null display-none">
-    <div class="message">
+  <div class="overlay overlay-end opacity-null display-none">
+    <div class="message message_end">
       <h2>You have a new level </h2>
-      <button class="confirm">Ok!</button>
+      <button class="confirm">Play again!</button>
     </div>
   </div>
+
+  <div class="overlay-start overlay ">
+    <div class="message-start message">
+      <h2>Rain Drop</h2>
+      <div class="configuration display-none">
+        <h3>Select the option</h3>
+        <div class="operator">
+          <span>Addition</span>
+          <div class="operator_check operator_check_active">          </div>
+        </div>
+        <div class="operator">
+          <span>Subtraction</span>
+          <div class="operator_check">          </div>
+        </div>        
+        <div class="operator">
+          <span>Division</span>
+          <div class="operator_check">          </div>
+        </div>       
+        <div class="operator">
+          <span>Multiplication</span>
+          <div class="operator_check">          </div>
+        </div>
+        <span>Set the max number*</span>
+        <div class="operator">
+          <div class="arrows arrows_down "></div>
+          <div class="arrows arrows_set-number">10</div>
+          <div class="arrows arrows_up"></div>
+        </div>
+        <h5>* - for multiplication and division, this will be no more than 10</h5>
+
+
+      </div>
+
+      <div class="how-to-play_container display-none" >
+        <video class="video1" src="./assets/video/1235.mp4"></video>
+        <video class="video2 display-none" src="./assets/video/234.mp4" ></video>
+        <video class="video3 display-none"></video>
+        <div class="operator operator_vedeo">
+          <div class="arrows arrows_left arrows_left_passive"></div>
+          <div class="description">You must enter the value of the expression before the drop falls into the sea.</div>
+          <div class="arrows arrows_right"></div>
+        </div>
+
+      </div>
+
+
+
+      <button class="play-start">Play</button>
+      <button class="options">Options</button>
+      <button class="how-to-play">How to play?</button>
+    </div>
+  </div>
+
+
   <!-- <div class="drop">
-      <div class="drop__container">
+    <div class="drop__container">
+      <span class="drop__span drop__span_big">+</span>
+      <div>
         <span class="drop__span">7</span>
-        <span class="drop__span drop__span_big">+</span>
-        <span class="drop__span">10</span>
+        <span class="drop__span">8</span>
       </div>
     </div>
   </div> -->
@@ -29,7 +84,24 @@
 
     <div class="game__container">
       <div class="game__container_fild"></div>
-      <div class="wave"></div>
+      <div class="wave">
+        <svg class="editorial" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          viewBox="0 24 150 28" preserveAspectRatio="none">
+          <defs>
+            <path id="gentle-wave" d="M-160 44c30 0 
+              58-18 88-18s
+              58 18 88 18 
+              58-18 88-18 
+              58 18 88 18
+              v44h-352z" />
+          </defs>
+          <g class="parallax">
+            <use xlink:href="#gentle-wave" x="50" y="0" fill="#4579e2" />
+            <use xlink:href="#gentle-wave" x="50" y="3" fill="#3461c1" />
+            <use xlink:href="#gentle-wave" x="50" y="6" fill="#2d55aa" />
+          </g>
+        </svg>
+      </div>
 
     </div>
     <div class="game__calc">
@@ -59,7 +131,7 @@
         </div>
       </div>
       <div>
-        <button class="start-button">Start</button>
+        <button class="start-button">Options</button>
         <button class="fullScreenBtn">FullScreen</button>
         <button class="end-button">End</button>
       </div>

@@ -1,7 +1,7 @@
 .score {
   box-sizing: border-box;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   height: 100px;
   width: 90%;
@@ -9,9 +9,12 @@
   padding: 0px 10px;
   font-size: 6rem;
   border: 1px solid black;
-  border-radius: 3px;
+  border-radius: 2px;
+  background-color: ivory;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.22);
+  text-shadow: 2px 2px 10px white, -2px -2px 10px white, -2px 2px 10px white, 2px -2px 10px white;
 }
-@media screen and (max-width: 460px) {
+@media screen and (max-width: 520px) {
   .score {
     margin: 15px auto 0 auto;
     height: 45px;
@@ -26,7 +29,7 @@
   background-color: #6e74ca;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.22);
 }
-@media screen and (max-width: 460px) {
+@media screen and (max-width: 520px) {
   .calc-panel {
     margin: 10px auto;
     max-width: 300px;
@@ -39,12 +42,13 @@
   padding: 5px 10px;
   font-size: 6rem;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.2);
+  text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.5), -2px -2px 10px rgba(255, 255, 255, 0.5), -2px 2px 10px rgba(255, 255, 255, 0.5), 2px -2px 10px rgba(255, 255, 255, 0.5);
 }
-@media screen and (max-width: 460px) {
+@media screen and (max-width: 520px) {
   .calc-panel__screen {
     height: 45px;
     font-size: 4rem;
@@ -68,7 +72,7 @@
 .calc-panel__battons_batton:hover {
   background-color: #4a52c5;
 }
-@media screen and (max-width: 460px) {
+@media screen and (max-width: 520px) {
   .calc-panel__battons_batton {
     font-size: 3rem;
   }
@@ -104,4 +108,10 @@
 button {
   display: inline-block;
   margin-bottom: 10px;
+  border: 2px solid #446ea5;
+  background: #cfe4ff;
+  font: 1.6rem bold;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.22);
+  border-radius: 2px;
+  cursor: pointer;
 }

@@ -8,23 +8,32 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-//make the drop
 var BTN = document.querySelector(".start-button");
 var CALCPANEL = document.querySelector(".calc-panel__battons");
 var CALCSCREEN = document.querySelector(".calc-panel__screen");
 var BTNS = document.querySelectorAll(".calc-panel__battons_batton");
 var SCORE = document.querySelector(".score");
 var WAVE = document.querySelector(".wave");
-var FULLScreenBtn = document.querySelector(".fullScreenBtn");
+var FULL_SCREEN_btn = document.querySelector(".fullScreenBtn");
 var GAME = document.querySelector("body");
-var ENDBtn = document.querySelector(".end-button");
-var overlay = document.querySelector(".overlay");
-var message = document.querySelector(".message h2");
-var confirmBtn = document.querySelector(".confirm");
-BTN.addEventListener("mousedown", function () {
-  startGame(); //   console.log("херь");
-  //   console.log(currentDrops);
-});
+var END_btn = document.querySelector(".end-button");
+var PLAY_START_btn = document.querySelector(".play-start");
+var OPTIONS_btn = document.querySelector(".options");
+var HOW_TO_PLAY_btn = document.querySelector(".how-to-play");
+var HOW_TO_PLAY_container = document.querySelector(".how-to-play_container");
+var OPERATORS_check = document.querySelectorAll(".operator_check");
+var configuration = document.querySelector(".configuration");
+var ARROW_UP = document.querySelector(".arrows_up");
+var ARROW_LEFT = document.querySelector(".arrows_left");
+var ARROW_DOWN = document.querySelector(".arrows_down");
+var ARROW_RIGHT = document.querySelector(".arrows_right");
+var SET_NUMBER = document.querySelector(".arrows_set-number");
+var DESCRIPTION = document.querySelector(".description");
+var overlay = document.querySelector(".overlay-end");
+var overlay_start = document.querySelector(".overlay-start");
+var message_start = document.querySelector(".message-start");
+var message = document.querySelector(".message_end h2");
+var PLAY_AGAIN_btn = document.querySelector(".confirm");
 var FAILsound = new Audio("./assets/sounds/fail.mp3");
 var SMALLfailsound = new Audio("./assets/sounds/smallfail.mp3");
 var VICTORYsound = new Audio("./assets/sounds/pobeda.mp3");
@@ -35,24 +44,30 @@ SEAsound.onended = function () {
   return SEAsound.play();
 };
 
+var VIDEO1 = document.querySelector(".video1");
+var VIDEO2 = document.querySelector(".video2");
+var VIDEO3 = document.querySelector(".video3");
+var currentVideo = 1;
 var STARTNUMBER = 1;
 var ENDNUMBER = 4;
 var TIMEForOneDrop = 10; // in sec
 
-var DROPFollenInterval = 3; // in sec
+var DROPFollenInterval = 7; // in sec
 
 var IntervalOfDropOpacity = 1; // in sec
 
-var BONUSnomber = 5;
-var INXcomplexity = 0.9; // from 0 to 1
+var BONUSnomber = 10;
+var INDEXcomplexity = 0.9; // from 0 to 1
 
-var IsGamePlayed = false;
+var OPERATORS = ["+", "–", "÷", "x"];
+var isGamePlayed = false;
 var lastLean = 0;
 var currentDrops = [];
 var inxDrop = 0;
-var countWinDrop = 0; // let operators = ["+"];
+var countWinDrop = 0;
+var counWrongEnter = 0; // let operators = ["+"];
 
-var operators = ["+", "-", "/", "x"];
+var operators = [];
 var myevent = new Event("click", {
   bubbles: true
 });
@@ -61,33 +76,35 @@ var numberOfFeils = 0;
 var coint = 10;
 var startTime;
 var endTime;
-var carrentTIMEForOneDrop;
-var carrentDROPFollenInterval;
+var currentTIMEForOneDrop;
+var currentDROPFollenInterval;
 var operator;
 var firstNumder;
 var secondNumber;
 var result;
 
 function startGame() {
-  WAVE.style.height = "".concat(20 + 18 * numberOfFeils, "%");
-  IsGamePlayed = true;
+  WAVE.style.height = "12%";
+  isGamePlayed = true;
   lastLean = 0;
   coint = 10;
   countWinDrop = 0;
-  carrentTIMEForOneDrop = TIMEForOneDrop;
-  carrentDROPFollenInterval = DROPFollenInterval;
+  counWrongEnter = 0;
+  inxDrop = 0;
+  currentTIMEForOneDrop = TIMEForOneDrop;
+  currentDROPFollenInterval = DROPFollenInterval;
   SCORE.textContent = "";
   startTime = new Date();
   createDrop();
-  game = setInterval(createDrop, carrentDROPFollenInterval * 1000);
+  game = setInterval(createDrop, currentDROPFollenInterval * 1000);
   SEAsound.play();
 }
 
-function feiled(e) {
-  if (!IsGamePlayed) return;
+function feiled() {
+  if (!isGamePlayed) return;
 
   if (++numberOfFeils >= 3) {
-    IsGamePlayed = false;
+    isGamePlayed = false;
     setTimeout(endGame, IntervalOfDropOpacity * 1000);
   }
 
@@ -95,15 +112,16 @@ function feiled(e) {
   DROPS.forEach(function (drop) {
     return dropQuickDown(drop);
   });
-  WAVE.style.height = "".concat(20 + 18 * numberOfFeils, "%");
+  WAVE.style.height = "".concat(12 + 20 * numberOfFeils, "%");
   clearInterval(game);
-  game = setInterval(createDrop, carrentDROPFollenInterval * 1000);
+  game = setInterval(createDrop, currentDROPFollenInterval * 1000);
   SMALLfailsound.currentTime = 0;
   SMALLfailsound.play();
-  SCORE.textContent = +SCORE.textContent - coint;
+  SCORE.textContent = +SCORE.textContent - coint < 0 ? "" : +SCORE.textContent - coint;
 }
 
-function endGame() {
+function endGame(e) {
+  if (!inxDrop) return;
   clearInterval(game);
   var GOAL = document.querySelectorAll(".drop");
   GOAL.forEach(function (drop) {
@@ -111,17 +129,21 @@ function endGame() {
   });
   numberOfFeils = 0;
   SEAsound.pause();
-  FAILsound.play();
   endTime = new Date();
-  IsGamePlayed = false;
-  showMessage();
+  isGamePlayed = false;
+
+  if (e !== "End without message") {
+    showMessage();
+    FAILsound.play();
+  }
 }
 
 function createDrop() {
-  if (!IsGamePlayed) return;
+  if (!isGamePlayed) return;
   inxDrop++;
   var DROP = document.createElement("div");
   var DROPcontainer = document.createElement("div");
+  var SPANcontainer = document.createElement("div");
   var SPAN1 = document.createElement("span");
   var SPAN2 = document.createElement("span");
   var SPAN3 = document.createElement("span");
@@ -153,12 +175,13 @@ function createDrop() {
   SPAN2.textContent = _setNumbers2[3];
   document.body.prepend(DROP);
   DROP.appendChild(DROPcontainer);
-  DROPcontainer.appendChild(SPAN1);
   DROPcontainer.appendChild(SPAN2);
-  DROPcontainer.appendChild(SPAN3);
+  DROPcontainer.appendChild(SPANcontainer);
+  SPANcontainer.appendChild(SPAN1);
+  SPANcontainer.appendChild(SPAN3);
   setTimeout(function () {
-    DROP.style.transform = "translateY(".concat(BOTTOM, "px)");
-    DROP.style.transition = "".concat(carrentTIMEForOneDrop, "s transform ease-in");
+    DROP.style.transform = "translateY(".concat(BOTTOM - 40, "px)");
+    DROP.style.transition = "".concat(currentTIMEForOneDrop, "s transform ease-in");
   }, 100);
   currentDrops[inxDrop] = DROP;
 }
@@ -177,7 +200,7 @@ function setNumbers() {
     result = firstNumder + secondNumber;
   }
 
-  if (operator == "-") {
+  if (operator == "–") {
     firstNumder = randomAll(STARTNUMBER, ENDNUMBER);
     secondNumber = randomAll(STARTNUMBER, ENDNUMBER);
     var max = Math.max(firstNumder, secondNumber);
@@ -193,13 +216,24 @@ function setNumbers() {
     result = firstNumder * secondNumber;
   }
 
-  if (operator == "/") {
+  if (operator == "÷") {
     result = randomAll(STARTNUMBER, ENDNUMBER > 10 ? 10 : ENDNUMBER);
     secondNumber = randomAll(STARTNUMBER, ENDNUMBER > 10 ? 10 : ENDNUMBER);
     firstNumder = result * secondNumber;
   }
 
   return [firstNumder, secondNumber, result, operator];
+}
+
+function setOperatops() {
+  var i = 0;
+  OPERATORS_check.forEach(function (operator) {
+    if (operator.classList.contains("operator_check_active")) {
+      operators.push(OPERATORS[i]);
+    }
+
+    ++i;
+  });
 }
 
 function randomAll(min, max) {
@@ -218,7 +252,7 @@ function randomLean(leans) {
 }
 
 function enterGoal() {
-  if (!IsGamePlayed) return;
+  if (!isGamePlayed) return;
   var DROPS = document.querySelectorAll(".drop");
 
   for (var i = DROPS.length - 1; i >= 0; --i) {
@@ -239,8 +273,10 @@ function enterGoal() {
   }
 
   CALCSCREEN.textContent = "";
+  SCORE.textContent = +SCORE.textContent - coint < 0 ? "" : +SCORE.textContent - coint;
   DROPsound.currentTime = 0;
   DROPsound.play();
+  ++counWrongEnter;
 }
 
 function setBonus(drops) {
@@ -248,10 +284,10 @@ function setBonus(drops) {
     return dropQuickDown(drop);
   });
   SCORE.textContent = +SCORE.textContent + 3 * coint++;
-  carrentTIMEForOneDrop *= INXcomplexity;
-  carrentDROPFollenInterval *= INXcomplexity;
+  currentTIMEForOneDrop *= INDEXcomplexity;
+  currentDROPFollenInterval *= INDEXcomplexity;
   clearInterval(game);
-  game = setInterval(createDrop, carrentDROPFollenInterval * 1000);
+  game = setInterval(createDrop, currentDROPFollenInterval * 1000);
   VICTORYsound.currentTime = 0;
   VICTORYsound.play();
   CALCSCREEN.textContent = "";
@@ -260,12 +296,15 @@ function setBonus(drops) {
 
 function dropQuickDown(drop) {
   drop.removeEventListener("transitionend", feiled);
-  drop.style.transition = "".concat(IntervalOfDropOpacity, "s all"); // drop.dataset.goal = "";
-
-  drop.style.top = drop.getBoundingClientRect().top + 500 + "px"; // console.log(drop.style.top);
-
-  drop.style.opacity = 0;
+  drop.style.transition = "";
+  drop.dataset.goal = "";
+  drop.style.top = drop.getBoundingClientRect().top + "px";
   drop.style.transform = "";
+  setTimeout(function () {
+    drop.style.top = drop.getBoundingClientRect().top + 900 + "px";
+    drop.style.transition = "".concat(IntervalOfDropOpacity, "s all ease-in");
+    drop.style.opacity = 0;
+  }, 10);
   setTimeout(drop.remove.bind(drop), IntervalOfDropOpacity * 1000);
 }
 
@@ -277,8 +316,21 @@ function keydown(e) {
   });
 }
 
+function efficiency() {
+  if (!countWinDrop) return "0%";
+  return Math.round((1 - counWrongEnter / inxDrop) * 100) + "%";
+}
+
 function showMessage() {
-  message.textContent = "Your Game is over ";
+  var results = [SCORE.textContent, countWinDrop, counWrongEnter, efficiency(), getGameTime()];
+  var resultsComment = ["Score: ", "Win Drops: ", "Wrong Enters: ", "Efficiency: ", "Game time: "];
+  var resultMessage = "<b>Game over!</b> <hr>";
+
+  for (var i = 0; i < results.length; ++i) {
+    resultMessage += resultsComment[i] + (results[i] ? results[i] : "0") + "<br>";
+  }
+
+  message.innerHTML = resultMessage;
   overlay.removeEventListener("transitionend", setDisplayNone);
   overlay.classList.remove("display-none");
   setTimeout(function () {
@@ -286,10 +338,47 @@ function showMessage() {
   }, 10);
 }
 
-function setDisplayNone() {
-  overlay.classList.add("display-none");
+function getGameTime() {
+  return formatDuration((endTime - startTime) / 1000);
 }
 
+function setDisplayNone(e) {
+  e.target.classList.add("display-none");
+}
+
+function formatDuration(seconds) {
+  var time = {
+    year: 31536000,
+    day: 86400,
+    hour: 3600,
+    minute: 60,
+    second: 1
+  },
+      res = [];
+  if (seconds === 0) return "now";
+
+  for (var key in time) {
+    if (seconds >= time[key]) {
+      var val = Math.floor(seconds / time[key]);
+      res.push(val += val > 1 ? " " + key + "s" : " " + key);
+      seconds = seconds % time[key];
+    }
+  }
+
+  return res.length > 1 ? res.join(", ").replace(/,([^,]*)$/, " and" + "$1") : res[0];
+}
+
+BTN.addEventListener("mousedown", function () {
+  endGame("End without message");
+  overlay_start.removeEventListener("transitionend", setDisplayNone);
+  overlay_start.classList.remove("display-none");
+  setTimeout(function () {
+    overlay_start.classList.remove("opacity-null");
+  }, 10);
+  configuration.classList.remove("display-none");
+  HOW_TO_PLAY_container.classList.add("display-none");
+  message_start.style.width = "";
+});
 CALCPANEL.addEventListener("click", function (e) {
   if (!e.target.dataset.key) return;
 
@@ -317,15 +406,118 @@ CALCPANEL.addEventListener("click", function (e) {
   }
 });
 document.addEventListener("keydown", keydown);
-ENDBtn.addEventListener("click", endGame);
-FULLScreenBtn.addEventListener("click", function (e) {
+END_btn.addEventListener("click", endGame);
+FULL_SCREEN_btn.addEventListener("click", function (e) {
   if (e.clientX === 0) return;
 
   if (document.fullscreenElement) {
     document.exitFullscreen();
   } else GAME.requestFullscreen();
 });
-confirmBtn.addEventListener("click", function () {
+PLAY_AGAIN_btn.addEventListener("click", function () {
   overlay.classList.add("opacity-null");
   overlay.addEventListener("transitionend", setDisplayNone);
+  startGame();
+});
+PLAY_START_btn.addEventListener("click", function () {
+  overlay_start.classList.add("opacity-null");
+  overlay_start.addEventListener("transitionend", setDisplayNone);
+  setOperatops();
+  ENDNUMBER = +SET_NUMBER.textContent;
+  startGame();
+});
+OPTIONS_btn.addEventListener("click", function () {
+  configuration.classList.remove("display-none");
+  HOW_TO_PLAY_container.classList.add("display-none");
+  message_start.style.width = "";
+});
+OPERATORS_check.forEach(function (operator) {
+  operator.addEventListener("click", function () {
+    if (!operator.classList.contains("operator_check_active")) {
+      operator.classList.add("operator_check_active");
+      return;
+    }
+
+    OPERATORS_check.forEach(function (oper) {
+      if (operator !== oper && oper.classList.contains("operator_check_active")) operator.classList.remove("operator_check_active");
+    });
+  });
+});
+ARROW_UP.addEventListener("click", function () {
+  if (++SET_NUMBER.textContent > 20) SET_NUMBER.textContent = 20;
+});
+ARROW_DOWN.addEventListener("click", function () {
+  if (--SET_NUMBER.textContent < 3) SET_NUMBER.textContent = 2;
+});
+HOW_TO_PLAY_btn.addEventListener("click", function () {
+  configuration.classList.add("display-none");
+  HOW_TO_PLAY_container.classList.remove("display-none");
+  message_start.style.width = "85%";
+  VIDEO1.play();
+
+  VIDEO1.onended = function () {
+    return VIDEO1.play();
+  };
+});
+ARROW_LEFT.addEventListener("click", function () {
+  if (currentVideo === 3) {
+    ARROW_RIGHT.classList.toggle("arrows_right_passive");
+    VIDEO2.classList.toggle("display-none");
+    VIDEO3.classList.toggle("display-none");
+    VIDEO2.play();
+
+    VIDEO2.onended = function () {
+      return VIDEO2.play();
+    };
+
+    DESCRIPTION.textContent = "When the third drop of water touches the sea, the game is over.";
+    currentVideo = 2;
+    return;
+  }
+
+  if (currentVideo === 2) {
+    ARROW_LEFT.classList.toggle("arrows_left_passive");
+    VIDEO2.pause();
+    VIDEO2.currentTime = 0;
+    VIDEO1.classList.toggle("display-none");
+    VIDEO2.classList.toggle("display-none");
+    VIDEO1.play();
+
+    VIDEO1.onended = function () {
+      return VIDEO2.play();
+    };
+
+    DESCRIPTION.textContent = "You must enter the value of the expression before the drop falls into the sea.";
+    currentVideo = 1;
+    return;
+  }
+});
+ARROW_RIGHT.addEventListener("click", function () {
+  if (currentVideo === 1) {
+    ARROW_LEFT.classList.toggle("arrows_left_passive");
+    VIDEO1.pause();
+    VIDEO1.currentTime = 0;
+    VIDEO1.classList.toggle("display-none");
+    VIDEO2.classList.toggle("display-none");
+    VIDEO2.play();
+
+    VIDEO2.onended = function () {
+      return VIDEO2.play();
+    };
+
+    DESCRIPTION.textContent = "When the third drop of water touches the sea, the game is over.";
+    currentVideo = 2;
+    return;
+  }
+
+  if (currentVideo === 2) {
+    ARROW_RIGHT.classList.toggle("arrows_right_passive");
+    VIDEO2.pause();
+    VIDEO2.currentTime = 0;
+    VIDEO2.classList.toggle("display-none");
+    VIDEO3.classList.toggle("display-none");
+    DESCRIPTION.textContent = "You can use the keyboard to play the game.";
+    currentVideo = 3;
+    return;
+  }
 });
