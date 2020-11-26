@@ -1,6 +1,4 @@
 .message-start {
-  // max-width: initial;
-  // width: 90%;
   max-width: 900px;
   max-height: 90vh;
 }
@@ -11,19 +9,21 @@
   justify-content: space-between;
   margin: 7px;
 }
+
 .operator_vedeo {
   justify-content: center;
 }
+
 .operator_check {
   box-sizing: border-box;
   position: relative;
   height: 40px;
   width: 40px;
-
   border: 3px solid black;
   cursor: pointer;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.22);
   transition: 0.3s all;
+
   &_active {
     border: 6px solid blue;
     border-radius: 50%;
@@ -31,6 +31,7 @@
     background-size: cover;
   }
 }
+
 .configuration {
   transition: 0.3s all;
   h5 {
@@ -48,6 +49,7 @@
   background-size: 70% 100%;
   background-repeat: no-repeat;
   background-position: center;
+
   &_set-number {
     display: flex;
     font-size: 4rem;
@@ -59,30 +61,37 @@
     background-image: url("../../assets/img/arrow-d.png");
     cursor: pointer;
   }
+
   &_up {
     background-image: url("../../assets/img/arrow-up.png");
     cursor: pointer;
   }
+
   &_left {
     background-image: url("../../assets/img/arrow-left.png");
     cursor: pointer;
     background-size: 100% 70%;
+
     &_passive {
       background-image: url("../../assets/img/arrow-left-p.png");
     }
   }
+
   &_right {
     background-image: url("../../assets/img/arrow-right.png");
     cursor: pointer;
     background-size: 100% 70%;
+
     &_passive {
       background-image: url("../../assets/img/arrow-right-p.png");
     }
   }
 }
+
 video {
   width: 90%;
 }
+
 .description {
   width: 70%;
   overflow: hidden;
@@ -90,6 +99,7 @@ video {
   max-width: 400px;
   font-size: 2rem;
 }
+
 .video3 {
   background-image: url("../../assets/img/NumLock.jpg");
   background-size: cover;

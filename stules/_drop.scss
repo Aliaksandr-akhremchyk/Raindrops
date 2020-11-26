@@ -11,8 +11,8 @@
   background-color: $drop-color;
   border-radius: 50%;
   transition-timing-function: ease-in;
-
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.22);
+
   &__container {
     position: absolute;
     display: flex;
@@ -21,12 +21,14 @@
     top: 10px;
     text-align: center;
   }
+
   &__span {
     display: block;
     margin-left: 3px;
     font-size: 3.5rem;
     font-weight: bold;
     line-height: 3.5rem;
+
     &_big {
       height: 100%;
       float: left;
@@ -35,6 +37,7 @@
         2px -2px 3px white;
     }
   }
+
   &::before {
     content: "";
     position: absolute;
