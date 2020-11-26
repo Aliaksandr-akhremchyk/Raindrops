@@ -1,62 +1,66 @@
-const BTN = document.querySelector(".start-button");
-const CALCPANEL = document.querySelector(".calc-panel__battons");
-const CALCSCREEN = document.querySelector(".calc-panel__screen");
-const BTNS = document.querySelectorAll(".calc-panel__battons_batton");
-const SCORE = document.querySelector(".score");
-const WAVE = document.querySelector(".wave");
-const FULL_SCREEN_btn = document.querySelector(".fullScreenBtn");
-const GAME = document.querySelector("body");
-const END_btn = document.querySelector(".end-button");
+//Buttons
 const PLAY_START_btn = document.querySelector(".play-start");
 const OPTIONS_btn = document.querySelector(".options");
 const HOW_TO_PLAY_btn = document.querySelector(".how-to-play");
-const HOW_TO_PLAY_container = document.querySelector(".how-to-play_container");
-
-const OPERATORS_check = document.querySelectorAll(".operator_check");
-const configuration = document.querySelector(".configuration");
-const ARROW_UP = document.querySelector(".arrows_up");
-const ARROW_LEFT = document.querySelector(".arrows_left");
-const ARROW_DOWN = document.querySelector(".arrows_down");
-const ARROW_RIGHT = document.querySelector(".arrows_right");
-const SET_NUMBER = document.querySelector(".arrows_set-number");
-const DESCRIPTION = document.querySelector(".description");
-
-const overlay = document.querySelector(".overlay-end");
-const overlay_start = document.querySelector(".overlay-start");
-const message_start = document.querySelector(".message-start");
-const message = document.querySelector(".message_end h2");
+const OPTIONS_DURING_GAME_btn = document.querySelector(".start-button");
+const END_btn = document.querySelector(".end-button");
+const FULL_SCREEN_btn = document.querySelector(".fullScreenBtn");
 const PLAY_AGAIN_btn = document.querySelector(".confirm");
 
-const FAILsound = new Audio("./assets/sounds/fail.mp3");
-const SMALLfailsound = new Audio("./assets/sounds/smallfail.mp3");
-const VICTORYsound = new Audio("./assets/sounds/pobeda.mp3");
-const DROPsound = new Audio("./assets/sounds/kap.mp3");
+const OVERLAY_start = document.querySelector(".overlay-start");
+const MESSAGE_start = document.querySelector(".message-start");
 
-const SEAsound = new Audio("./assets/sounds/sea.mp3");
-SEAsound.onended = () => SEAsound.play();
+const configuration = document.querySelector(".configuration");
+const ARROW_UP = document.querySelector(".arrows_up");
+const ARROW_DOWN = document.querySelector(".arrows_down");
+const OPERATORS_check = document.querySelectorAll(".operator_check");
+const SET_NUMBER = document.querySelector(".arrows_set-number");
 
-const VIDEO1 = document.querySelector(".video1");
-const VIDEO2 = document.querySelector(".video2");
-const VIDEO3 = document.querySelector(".video3");
+const HOW_TO_PLAY_container = document.querySelector(".how-to-play_container");
+const ARROW_LEFT = document.querySelector(".arrows_left");
+const ARROW_RIGHT = document.querySelector(".arrows_right");
+const DESCRIPTION = document.querySelector(".description");
+const VIDEO_1 = document.querySelector(".video1");
+const VIDEO_2 = document.querySelector(".video2");
+const VIDEO_3 = document.querySelector(".video3");
+
+const GAME = document.querySelector("body");
+const WAVE = document.querySelector(".wave");
+
+const SCORE = document.querySelector(".score");
+const CALC_PANEL = document.querySelector(".calc-panel__battons");
+const CALC_SCREEN = document.querySelector(".calc-panel__screen");
+const CALC_BTNS = document.querySelectorAll(".calc-panel__battons_batton");
+
+const OVERLAY_end = document.querySelector(".overlay-end");
+const MESSAGE_end = document.querySelector(".message_end h2");
+
+const FAIL_sound = new Audio("./assets/sounds/fail.mp3");
+const SMALL_FAIL_sound = new Audio("./assets/sounds/smallfail.mp3");
+const VICTORY_sound = new Audio("./assets/sounds/pobeda.mp3");
+const DROP_sound = new Audio("./assets/sounds/kap.mp3");
+
+const SEA_sound = new Audio("./assets/sounds/sea.mp3");
+SEA_sound.onended = () => SEA_sound.play();
+
 let currentVideo = 1;
 
-const STARTNUMBER = 1;
-let ENDNUMBER = 4;
-const TIMEForOneDrop = 10; // in sec
-const DROPFollenInterval = 7; // in sec
-const IntervalOfDropOpacity = 1; // in sec
-const BONUSnomber = 10;
-const INDEXcomplexity = 0.9; // from 0 to 1
+const START_NUMBER = 1;
+let END_NUMBER = 4;
+const TIME_FOR_ONE_DRO_PFOLLEN = 10; // in sec
+const INTERVAL_FOR_DROP_FOLLEN = 7; // in sec
+const INTERVAL_FOR_DROP_OPACITY = 1; // in sec
+const NUMBERS_OF_DROPS_FOR_BONUS = 10;
+const COMPLEXITY_INDEX = 0.9; // from 0 to 1
 const OPERATORS = ["+", "–", "÷", "x"];
 
 let isGamePlayed = false;
-let lastLean = 0;
+let lastDropLean = 0;
 let currentDrops = [];
 let inxDrop = 0;
 let countWinDrop = 0;
 let counWrongEnter = 0;
-// let operators = ["+"];
-let operators = [];
+let currentOperators = [];
 let myevent = new Event("click", { bubbles: true });
 let game = 0;
 let numberOfFeils = 0;
@@ -75,24 +79,24 @@ let result;
 function startGame() {
   WAVE.style.height = `12%`;
   isGamePlayed = true;
-  lastLean = 0;
+  lastDropLean = 0;
   coint = 10;
   countWinDrop = 0;
   counWrongEnter = 0;
   inxDrop = 0;
-  currentTIMEForOneDrop = TIMEForOneDrop;
-  currentDROPFollenInterval = DROPFollenInterval;
+  currentTIMEForOneDrop = TIME_FOR_ONE_DRO_PFOLLEN;
+  currentDROPFollenInterval = INTERVAL_FOR_DROP_FOLLEN;
   SCORE.textContent = "";
   startTime = new Date();
   createDrop();
   game = setInterval(createDrop, currentDROPFollenInterval * 1000);
-  SEAsound.play();
+  SEA_sound.play();
 }
 function feiled() {
   if (!isGamePlayed) return;
   if (++numberOfFeils >= 3) {
     isGamePlayed = false;
-    setTimeout(endGame, IntervalOfDropOpacity * 1000);
+    setTimeout(endGame, INTERVAL_FOR_DROP_OPACITY * 1000);
   }
   const DROPS = document.querySelectorAll(".drop");
   DROPS.forEach((drop) => dropQuickDown(drop));
@@ -102,8 +106,8 @@ function feiled() {
   clearInterval(game);
   game = setInterval(createDrop, currentDROPFollenInterval * 1000);
 
-  SMALLfailsound.currentTime = 0;
-  SMALLfailsound.play();
+  SMALL_FAIL_sound.currentTime = 0;
+  SMALL_FAIL_sound.play();
   SCORE.textContent =
     +SCORE.textContent - coint < 0 ? "" : +SCORE.textContent - coint;
 }
@@ -113,12 +117,12 @@ function endGame(e) {
   const GOAL = document.querySelectorAll(".drop");
   GOAL.forEach((drop) => drop.remove());
   numberOfFeils = 0;
-  SEAsound.pause();
+  SEA_sound.pause();
   endTime = new Date();
   isGamePlayed = false;
   if (e !== "End without message") {
     showMessage();
-    FAILsound.play();
+    FAIL_sound.play();
   }
 }
 function createDrop() {
@@ -146,7 +150,7 @@ function createDrop() {
   SPAN2.classList.add("drop__span", "drop__span_big");
   SPAN3.classList.add("drop__span");
 
-  if (inxDrop % BONUSnomber === 0) {
+  if (inxDrop % NUMBERS_OF_DROPS_FOR_BONUS === 0) {
     console.log(inxDrop);
     DROP.classList.add("bonus");
     DROP.dataset.bonus = 1;
@@ -178,28 +182,28 @@ function dropTransitionEnd(e) {
   feiled(e);
 }
 function setNumbers() {
-  operator = operators[randomAll(0, operators.length - 1)];
+  operator = currentOperators[randomAll(0, currentOperators.length - 1)];
   if (operator == "+") {
-    firstNumder = randomAll(STARTNUMBER, ENDNUMBER);
-    secondNumber = randomAll(STARTNUMBER, ENDNUMBER);
+    firstNumder = randomAll(START_NUMBER, END_NUMBER);
+    secondNumber = randomAll(START_NUMBER, END_NUMBER);
     result = firstNumder + secondNumber;
   }
   if (operator == "–") {
-    firstNumder = randomAll(STARTNUMBER, ENDNUMBER);
-    secondNumber = randomAll(STARTNUMBER, ENDNUMBER);
+    firstNumder = randomAll(START_NUMBER, END_NUMBER);
+    secondNumber = randomAll(START_NUMBER, END_NUMBER);
     let max = Math.max(firstNumder, secondNumber);
     let min = Math.min(firstNumder, secondNumber);
     [firstNumder, secondNumber] = [max, min];
     result = firstNumder - secondNumber;
   }
   if (operator == "x") {
-    firstNumder = randomAll(STARTNUMBER, ENDNUMBER > 10 ? 10 : ENDNUMBER);
-    secondNumber = randomAll(STARTNUMBER, ENDNUMBER > 10 ? 10 : ENDNUMBER);
+    firstNumder = randomAll(START_NUMBER, END_NUMBER > 10 ? 10 : END_NUMBER);
+    secondNumber = randomAll(START_NUMBER, END_NUMBER > 10 ? 10 : END_NUMBER);
     result = firstNumder * secondNumber;
   }
   if (operator == "÷") {
-    result = randomAll(STARTNUMBER, ENDNUMBER > 10 ? 10 : ENDNUMBER);
-    secondNumber = randomAll(STARTNUMBER, ENDNUMBER > 10 ? 10 : ENDNUMBER);
+    result = randomAll(START_NUMBER, END_NUMBER > 10 ? 10 : END_NUMBER);
+    secondNumber = randomAll(START_NUMBER, END_NUMBER > 10 ? 10 : END_NUMBER);
     firstNumder = result * secondNumber;
   }
   return [firstNumder, secondNumber, result, operator];
@@ -208,22 +212,20 @@ function setOperatops() {
   let i = 0;
   OPERATORS_check.forEach((operator) => {
     if (operator.classList.contains("operator_check_active")) {
-      operators.push(OPERATORS[i]);
+      currentOperators.push(OPERATORS[i]);
     }
     ++i;
   });
 }
-
 function randomAll(min, max) {
   return Math.round(Math.random() * (max - min) + min);
 }
-
 function randomLean(leans) {
   const idx = randomAll(1, leans);
-  if (idx === lastLean) {
+  if (idx === lastDropLean) {
     return randomLean(leans);
   }
-  lastLean = idx;
+  lastDropLean = idx;
   return idx;
 }
 function enterGoal() {
@@ -232,38 +234,38 @@ function enterGoal() {
   for (let i = DROPS.length - 1; i >= 0; --i) {
     if (
       DROPS[i].dataset.bonus &&
-      DROPS[i].dataset.goal == CALCSCREEN.textContent
+      DROPS[i].dataset.goal == CALC_SCREEN.textContent
     ) {
       setBonus(DROPS);
       return;
     }
-    if (DROPS[i].dataset.goal == CALCSCREEN.textContent) {
+    if (DROPS[i].dataset.goal == CALC_SCREEN.textContent) {
       SCORE.textContent = +SCORE.textContent + coint++;
       dropQuickDown(DROPS[i]);
-      VICTORYsound.currentTime = 0;
-      VICTORYsound.play();
-      CALCSCREEN.textContent = "";
+      VICTORY_sound.currentTime = 0;
+      VICTORY_sound.play();
+      CALC_SCREEN.textContent = "";
       ++countWinDrop;
       return;
     }
   }
-  CALCSCREEN.textContent = "";
+  CALC_SCREEN.textContent = "";
   SCORE.textContent =
     +SCORE.textContent - coint < 0 ? "" : +SCORE.textContent - coint;
-  DROPsound.currentTime = 0;
-  DROPsound.play();
+  DROP_sound.currentTime = 0;
+  DROP_sound.play();
   ++counWrongEnter;
 }
 function setBonus(drops) {
   drops.forEach((drop) => dropQuickDown(drop));
   SCORE.textContent = +SCORE.textContent + 3 * coint++;
-  currentTIMEForOneDrop *= INDEXcomplexity;
-  currentDROPFollenInterval *= INDEXcomplexity;
+  currentTIMEForOneDrop *= COMPLEXITY_INDEX;
+  currentDROPFollenInterval *= COMPLEXITY_INDEX;
   clearInterval(game);
   game = setInterval(createDrop, currentDROPFollenInterval * 1000);
-  VICTORYsound.currentTime = 0;
-  VICTORYsound.play();
-  CALCSCREEN.textContent = "";
+  VICTORY_sound.currentTime = 0;
+  VICTORY_sound.play();
+  CALC_SCREEN.textContent = "";
   ++countWinDrop;
 }
 function dropQuickDown(drop) {
@@ -275,14 +277,14 @@ function dropQuickDown(drop) {
   drop.style.transform = "";
   setTimeout(() => {
     drop.style.top = drop.getBoundingClientRect().top + 900 + "px";
-    drop.style.transition = `${IntervalOfDropOpacity}s all ease-in`;
+    drop.style.transition = `${INTERVAL_FOR_DROP_OPACITY}s all ease-in`;
     drop.style.opacity = 0;
   }, 10);
 
-  setTimeout(drop.remove.bind(drop), IntervalOfDropOpacity * 1000);
+  setTimeout(drop.remove.bind(drop), INTERVAL_FOR_DROP_OPACITY * 1000);
 }
 function keydown(e) {
-  BTNS.forEach((btn) => {
+  CALC_BTNS.forEach((btn) => {
     if (btn.dataset.code === e.code) {
       btn.dispatchEvent(myevent);
     }
@@ -292,7 +294,6 @@ function efficiency() {
   if (!countWinDrop) return "0%";
   return Math.round((1 - counWrongEnter / inxDrop) * 100) + "%";
 }
-
 function showMessage() {
   let results = [
     SCORE.textContent,
@@ -315,11 +316,11 @@ function showMessage() {
       resultsComment[i] + (results[i] ? results[i] : "0") + "<br>";
   }
 
-  message.innerHTML = resultMessage;
-  overlay.removeEventListener("transitionend", setDisplayNone);
-  overlay.classList.remove("display-none");
+  MESSAGE_end.innerHTML = resultMessage;
+  OVERLAY_end.removeEventListener("transitionend", setDisplayNone);
+  OVERLAY_end.classList.remove("display-none");
   setTimeout(() => {
-    overlay.classList.remove("opacity-null");
+    OVERLAY_end.classList.remove("opacity-null");
   }, 10);
 }
 function getGameTime() {
@@ -328,7 +329,6 @@ function getGameTime() {
 function setDisplayNone(e) {
   e.target.classList.add("display-none");
 }
-
 function formatDuration(seconds) {
   var time = { year: 31536000, day: 86400, hour: 3600, minute: 60, second: 1 },
     res = [];
@@ -347,63 +347,51 @@ function formatDuration(seconds) {
     ? res.join(", ").replace(/,([^,]*)$/, " and" + "$1")
     : res[0];
 }
-
-BTN.addEventListener("mousedown", () => {
+OPTIONS_DURING_GAME_btn.addEventListener("mousedown", () => {
   endGame("End without message");
-  overlay_start.removeEventListener("transitionend", setDisplayNone);
-  overlay_start.classList.remove("display-none");
+  OVERLAY_start.removeEventListener("transitionend", setDisplayNone);
+  OVERLAY_start.classList.remove("display-none");
   setTimeout(() => {
-    overlay_start.classList.remove("opacity-null");
+    OVERLAY_start.classList.remove("opacity-null");
   }, 10);
   configuration.classList.remove("display-none");
   HOW_TO_PLAY_container.classList.add("display-none");
-  message_start.style.width = "";
+  MESSAGE_start.style.width = "";
 });
-CALCPANEL.addEventListener("click", (e) => {
-  if (!e.target.dataset.key) return;
-  if (e.target.dataset.key >= 0 && e.target.dataset.key <= 9) {
-    CALCSCREEN.textContent += e.target.dataset.key;
-  }
-  if (e.target.dataset.key == "Del") {
-    CALCSCREEN.textContent = CALCSCREEN.textContent.slice(0, -1);
-  }
-  if (e.target.dataset.key == "Clear") {
-    CALCSCREEN.textContent = "";
-  }
-  if (e.target.dataset.key == "Enter") {
-    enterGoal();
-  }
-  e.target.style.backgroundColor = "red";
-  setTimeout(removeStyle.bind(e.target), 300, e.target);
-
-  function removeStyle(el) {
-    el.style.backgroundColor = "";
-  }
+PLAY_START_btn.addEventListener("click", () => {
+  OVERLAY_start.classList.add("opacity-null");
+  OVERLAY_start.addEventListener("transitionend", setDisplayNone);
+  VIDEO_1.pause();
+  VIDEO_2.pause();
+  VIDEO_1.currentTime = 0;
+  VIDEO_2.currentTime = 0;
+  setOperatops();
+  END_NUMBER = +SET_NUMBER.textContent;
+  startGame();
 });
-document.addEventListener("keydown", keydown);
-END_btn.addEventListener("click", endGame);
+PLAY_AGAIN_btn.addEventListener("click", () => {
+  OVERLAY_end.classList.add("opacity-null");
+  OVERLAY_end.addEventListener("transitionend", setDisplayNone);
+  startGame();
+});
 FULL_SCREEN_btn.addEventListener("click", (e) => {
   if (e.clientX === 0) return;
   if (document.fullscreenElement) {
     document.exitFullscreen();
   } else GAME.requestFullscreen();
 });
-PLAY_AGAIN_btn.addEventListener("click", () => {
-  overlay.classList.add("opacity-null");
-  overlay.addEventListener("transitionend", setDisplayNone);
-  startGame();
-});
-PLAY_START_btn.addEventListener("click", () => {
-  overlay_start.classList.add("opacity-null");
-  overlay_start.addEventListener("transitionend", setDisplayNone);
-  setOperatops();
-  ENDNUMBER = +SET_NUMBER.textContent;
-  startGame();
-});
+END_btn.addEventListener("click", endGame);
 OPTIONS_btn.addEventListener("click", () => {
   configuration.classList.remove("display-none");
   HOW_TO_PLAY_container.classList.add("display-none");
-  message_start.style.width = "";
+  MESSAGE_start.style.width = "";
+});
+HOW_TO_PLAY_btn.addEventListener("click", () => {
+  configuration.classList.add("display-none");
+  HOW_TO_PLAY_container.classList.remove("display-none");
+  MESSAGE_start.style.width = "85%";
+  VIDEO_1.play();
+  VIDEO_1.onended = () => VIDEO_1.play();
 });
 OPERATORS_check.forEach((operator) => {
   operator.addEventListener("click", () => {
@@ -417,26 +405,40 @@ OPERATORS_check.forEach((operator) => {
     });
   });
 });
+CALC_PANEL.addEventListener("click", (e) => {
+  if (!e.target.dataset.key) return;
+  if (e.target.dataset.key >= 0 && e.target.dataset.key <= 9) {
+    CALC_SCREEN.textContent += e.target.dataset.key;
+  }
+  if (e.target.dataset.key == "Del") {
+    CALC_SCREEN.textContent = CALC_SCREEN.textContent.slice(0, -1);
+  }
+  if (e.target.dataset.key == "Clear") {
+    CALC_SCREEN.textContent = "";
+  }
+  if (e.target.dataset.key == "Enter") {
+    enterGoal();
+  }
+  e.target.style.backgroundColor = "red";
+  setTimeout(removeStyle.bind(e.target), 300, e.target);
+
+  function removeStyle(el) {
+    el.style.backgroundColor = "";
+  }
+});
 ARROW_UP.addEventListener("click", () => {
   if (++SET_NUMBER.textContent > 20) SET_NUMBER.textContent = 20;
 });
 ARROW_DOWN.addEventListener("click", () => {
   if (--SET_NUMBER.textContent < 3) SET_NUMBER.textContent = 2;
 });
-HOW_TO_PLAY_btn.addEventListener("click", () => {
-  configuration.classList.add("display-none");
-  HOW_TO_PLAY_container.classList.remove("display-none");
-  message_start.style.width = "85%";
-  VIDEO1.play();
-  VIDEO1.onended = () => VIDEO1.play();
-});
 ARROW_LEFT.addEventListener("click", () => {
   if (currentVideo === 3) {
     ARROW_RIGHT.classList.toggle("arrows_right_passive");
-    VIDEO2.classList.toggle("display-none");
-    VIDEO3.classList.toggle("display-none");
-    VIDEO2.play();
-    VIDEO2.onended = () => VIDEO2.play();
+    VIDEO_2.classList.toggle("display-none");
+    VIDEO_3.classList.toggle("display-none");
+    VIDEO_2.play();
+    VIDEO_2.onended = () => VIDEO_2.play();
     DESCRIPTION.textContent =
       "When the third drop of water touches the sea, the game is over.";
     currentVideo = 2;
@@ -444,12 +446,12 @@ ARROW_LEFT.addEventListener("click", () => {
   }
   if (currentVideo === 2) {
     ARROW_LEFT.classList.toggle("arrows_left_passive");
-    VIDEO2.pause();
-    VIDEO2.currentTime = 0;
-    VIDEO1.classList.toggle("display-none");
-    VIDEO2.classList.toggle("display-none");
-    VIDEO1.play();
-    VIDEO1.onended = () => VIDEO2.play();
+    VIDEO_2.pause();
+    VIDEO_2.currentTime = 0;
+    VIDEO_1.classList.toggle("display-none");
+    VIDEO_2.classList.toggle("display-none");
+    VIDEO_1.play();
+    VIDEO_1.onended = () => VIDEO_2.play();
     DESCRIPTION.textContent =
       "You must enter the value of the expression before the drop falls into the sea.";
     currentVideo = 1;
@@ -459,12 +461,12 @@ ARROW_LEFT.addEventListener("click", () => {
 ARROW_RIGHT.addEventListener("click", () => {
   if (currentVideo === 1) {
     ARROW_LEFT.classList.toggle("arrows_left_passive");
-    VIDEO1.pause();
-    VIDEO1.currentTime = 0;
-    VIDEO1.classList.toggle("display-none");
-    VIDEO2.classList.toggle("display-none");
-    VIDEO2.play();
-    VIDEO2.onended = () => VIDEO2.play();
+    VIDEO_1.pause();
+    VIDEO_1.currentTime = 0;
+    VIDEO_1.classList.toggle("display-none");
+    VIDEO_2.classList.toggle("display-none");
+    VIDEO_2.play();
+    VIDEO_2.onended = () => VIDEO_2.play();
     DESCRIPTION.textContent =
       "When the third drop of water touches the sea, the game is over.";
     currentVideo = 2;
@@ -472,12 +474,13 @@ ARROW_RIGHT.addEventListener("click", () => {
   }
   if (currentVideo === 2) {
     ARROW_RIGHT.classList.toggle("arrows_right_passive");
-    VIDEO2.pause();
-    VIDEO2.currentTime = 0;
-    VIDEO2.classList.toggle("display-none");
-    VIDEO3.classList.toggle("display-none");
+    VIDEO_2.pause();
+    VIDEO_2.currentTime = 0;
+    VIDEO_2.classList.toggle("display-none");
+    VIDEO_3.classList.toggle("display-none");
     DESCRIPTION.textContent = "You can use the keyboard to play the game.";
     currentVideo = 3;
     return;
   }
 });
+document.addEventListener("keydown", keydown);
