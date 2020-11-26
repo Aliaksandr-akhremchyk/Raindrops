@@ -11,6 +11,7 @@
   opacity: 1;
   transition: all 0.6s;
 }
+
 .message {
   max-width: 300px;
   text-align: center;
@@ -20,6 +21,7 @@
   font-size: 1.6rem;
   line-height: 3rem;
 }
+
 .confirm {
   display: block;
   width: 50%;
@@ -27,13 +29,13 @@
   border: 3px solid #446ea5;
   background: #cfe4ff;
   font: 2rem bold;
-
   cursor: pointer;
 }
 
 .opacity-null {
   opacity: 0;
 }
+
 .display-none {
   display: none;
 }

@@ -1,20 +1,18 @@
 .parallax > use {
   animation: move-forever 25s linear infinite;
-  &:nth-child(1) {
-    animation-delay: -5s;
-    opacity: 0.9;
-  }
-
-  &:nth-child(2) {
-    animation-delay: -5s;
-    animation-duration: 15s;
-    opacity: 0.9;
-  }
-
-  &:nth-child(3) {
-    animation-delay: -9s;
-    animation-duration: 8s;
-  }
+}
+.parallax > use:nth-child(1) {
+  animation-delay: -5s;
+  opacity: 0.9;
+}
+.parallax > use:nth-child(2) {
+  animation-delay: -5s;
+  animation-duration: 15s;
+  opacity: 0.9;
+}
+.parallax > use:nth-child(3) {
+  animation-delay: -9s;
+  animation-duration: 8s;
 }
 
 @keyframes move-forever {
@@ -25,7 +23,6 @@
     transform: translate(85px, 0%);
   }
 }
-
 .editorial {
   top: -60px;
   position: absolute;
