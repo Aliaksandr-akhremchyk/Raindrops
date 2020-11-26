@@ -318,7 +318,7 @@ function keydown(e) {
 
 function efficiency() {
   if (!countWinDrop) return "0%";
-  return Math.round((1 - counWrongEnter / inxDrop) * 100) + "%";
+  return Math.round(countWinDrop / (countWinDrop + counWrongEnter) * 100) + "%";
 }
 
 function showMessage() {
@@ -434,7 +434,7 @@ CALC_PANEL.addEventListener("click", function (e) {
   if (!e.target.dataset.key) return;
 
   if (e.target.dataset.key >= 0 && e.target.dataset.key <= 9) {
-    CALC_SCREEN.textContent += e.target.dataset.key;
+    if (CALC_SCREEN.textContent.length < 3) CALC_SCREEN.textContent += e.target.dataset.key;
   }
 
   if (e.target.dataset.key == "Del") {
