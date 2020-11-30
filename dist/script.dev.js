@@ -368,7 +368,7 @@ function formatDuration(seconds) {
   return res.length > 1 ? res.join(", ").replace(/,([^,]*)$/, " and" + "$1") : res[0];
 }
 
-OPTIONS_DURING_GAME_btn.addEventListener("mousedown", function () {
+OPTIONS_DURING_GAME_btn.addEventListener("click", function () {
   endGame("End without message");
   OVERLAY_start.removeEventListener("transitionend", setDisplayNone);
   OVERLAY_start.classList.remove("display-none");
