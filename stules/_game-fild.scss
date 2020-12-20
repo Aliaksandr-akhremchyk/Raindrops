@@ -1,0 +1,60 @@
+@import "_vriables.scss";
+
+.game {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(to top, rgb(124, 203, 235), rgb(224, 240, 248));
+
+  @media screen and (max-width: $mobile-width) {
+    flex-direction: column;
+  }
+
+  &__container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-image: url("../../assets/img/beach.png");
+    background-position: center bottom 18%;
+    background-size: 500px;
+    background-repeat: no-repeat;
+  }
+
+  &__container_fild {
+    width: 100%;
+    height: 100%;
+
+    @media screen and (max-width: $mobile-width) {
+      width: 100%;
+    }
+  }
+
+  &__calc {
+    display: flex;
+    right: 0;
+    flex-direction: column;
+    top: 0;
+    width: 22%;
+    min-width: 260px;
+    background: linear-gradient(to top, rgb(230, 211, 176), rgb(248, 246, 224));
+    justify-content: start;
+    align-items: center;
+    z-index: 2;
+
+    @media screen and (max-width: $mobile-width) {
+      position: relative;
+      bottom: 0px;
+      min-width: initial;
+      width: 100vw;
+    }
+  }
+}
+
+.wave {
+  position: relative;
+  height: 12%;
+  background-color: #2d55aa;
+  transition: 1s;
+  // opacity: 0.9;
+}

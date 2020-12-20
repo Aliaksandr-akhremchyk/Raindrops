@@ -1,0 +1,28 @@
+@import "_drop.scss";
+@import "_vriables.scss";
+@import "_game-fild.scss";
+@import "_calc.scss";
+@import "_end-message.scss";
+@import "_wave.scss";
+@import "_start_page.scss";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html {
+  font-size: 10px;
+}
+
+body {
+  position: relative;
+  z-index: 2;
+}
+
+h2 {
+  font-weight: initial;
+}
